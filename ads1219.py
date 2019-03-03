@@ -109,6 +109,3 @@ class ADS1219:
     def powerdown(self):
         data = ustruct.pack('B', _COMMAND_POWERDOWN)
         self._i2c.writeto(self._address, data)
-        
-#class UADS1219(ADS1219):
-# TODO read_data() for uasyncio

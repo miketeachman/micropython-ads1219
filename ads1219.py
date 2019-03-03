@@ -23,7 +23,7 @@ _COMMAND_RREG_STATUS = const(0b00100100)
 _COMMAND_WREG_CONFIG = const(0b01000000)
 
 _DRDY_MASK = const(0b10000000)  
-_DRDY_NO_NEW_RESULT = const(0b00000000)    # No new conversion result available (default)
+_DRDY_NO_NEW_RESULT = const(0b00000000)    # No new conversion result available
 _DRDY_NEW_RESULT_READY = const(0b10000000) # New conversion result ready
 
 class ADS1219:
@@ -109,3 +109,6 @@ class ADS1219:
     def powerdown(self):
         data = ustruct.pack('B', _COMMAND_POWERDOWN)
         self._i2c.writeto(self._address, data)
+        
+#class UADS1219(ADS1219):
+# TODO read_data() for uasyncio

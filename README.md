@@ -1,6 +1,6 @@
 # MicroPython Driver for Texas Instruments ADS1219 Analog to Digital Converter (ADC)
 
-The ADS1219 is a precision, 24-bit, analog-to-digital converter (ADC) with I2C interface
+The ADS1219 is a precision, 4-channel, 24-bit, analog-to-digital converter (ADC) with I2C interface
 
 # class ADS1219
 
@@ -29,7 +29,7 @@ while True:
 ```
 class ads1219.ADS1219(i2c, [address = 0x040]),
 ```
-Construct and return a new I2S object with the given arguments:
+Construct and return a new ADS1219 object with the given arguments:
   * **i2c** specifies I2C bus instance
   * **address** device address
   
@@ -137,3 +137,13 @@ CM_SINGLE, CM_CONTINUOUS
 ```
 VREF_INTERNAL, VREF_EXTERNAL
 ```
+## Making a breakout board
+The ADS1219 device is available in a TSSOP-16 package which can be soldered onto a compatible breakout board.  Here is a photo showing the device soldered into an Adafruit TSSOP-16 breakout board.
+
+![ADS1219 Breakout Board](images/ads1219-breakout.jpg)
+
+[Adafruit TSSOP-16 breakout board](https://www.adafruit.com/product/1207)
+
+The ADS1219 device can be purchased from a supplier such as Digikey.  In single quantities each part costs around USD $6.50.  Make sure to purchase the TSSOP-16 package and not the WQFN-16 package (which is more difficult to hand solder).
+
+[ADS1219 in TSSOP-16 package](https://www.digikey.com/product-detail/en/texas-instruments/ADS1219IPWR/296-50884-1-ND/9743261)

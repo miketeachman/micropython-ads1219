@@ -5,7 +5,7 @@
 # MicroPython driver for the Texas Instruments ADS1219 ADC
 
 from micropython import const
-import ustruct
+import ustruct 
 import utime
 
 _CHANNEL_MASK = const(0b11100000)
@@ -49,6 +49,9 @@ class ADS1219:
 
     VREF_INTERNAL = const(0b0) # Internal 2.048V reference (default)
     VREF_EXTERNAL = const(0b1) # External reference
+    
+    VREF_INTERNAL_MV = 2048 # Internal reference voltage = 2048 mV
+    POSITIVE_CODE_RANGE = 0x7FFFFF # 23 bits of positive range    
 
     def __init__(self, i2c, address=0x40):
         self._i2c = i2c
@@ -91,8 +94,16 @@ class ADS1219:
     def read_data(self):
         if ((self.read_config() & _CM_MASK) == CM_SINGLE):
             self.start_sync()
-        while((self.read_status() & _DRDY_MASK) == _DRDY_NO_NEW_RESULT):
-            utime.sleep_ms(1)        
+            # loop until conversion is completed
+            while((self.read_status() & _DRDY_MASK) == _DRDY_NO_NEW_RESULT):
+                utime.sleep_us(100)        
+            
+        rreg = ustruct.pack('B', _COMMAND_RDATA) 
+        self._i2c.writeto(self._address, rreg)
+        data = self._i2c.readfrom(self._address, 3)
+        return ustruct.unpack('>I', b'\x00' + data)[0]
+    
+    def read_data_irq(self):
         rreg = ustruct.pack('B', _COMMAND_RDATA) 
         self._i2c.writeto(self._address, rreg)
         data = self._i2c.readfrom(self._address, 3)
